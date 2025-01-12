@@ -1,0 +1,7 @@
+numpy
+asyncserial
+pytest
+pyvisa
+pyvisa-py
+pyusb
+sipyco @ git+https://github.com/m-labs/sipyco.git@master#egg=sipyco

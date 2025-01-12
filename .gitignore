@@ -1,0 +1,9 @@
+__pycache__/
+*.swp
+*.aux
+*.log
+*.pdf
+*.out
+doc/build
+artiq_pm400.egg-info/
+build/
