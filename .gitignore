@@ -5,5 +5,5 @@ __pycache__/
 *.pdf
 *.out
 doc/build
-artiq_pm400.egg-info/
+artiq_thorlabs_pm400.egg-info/
 build/
