@@ -33,7 +33,7 @@ class ArtiqThorlabsPm400():
         return float(self.instr.query("MEAS:POW?"))
 
     async def ping(self):
-        idn = self.instr.query("IDN?")
+        idn = self.instr.query("*IDN?")
         if "PM400" in idn:
             return True
         else:
