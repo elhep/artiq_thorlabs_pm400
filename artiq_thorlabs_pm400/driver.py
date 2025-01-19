@@ -12,12 +12,20 @@ class ArtiqThorlabsPm400():
     def __init__(self, device):
         rm = pyvisa.ResourceManager()
         self.instr = rm.open_resource(device)
+        # Clear errors from memory
+        self.instr.write('*CLS')
+
+    async def write_instrument(self, query):
+        self.instr.write(query)
+        error_response = self.instr.query('SYST:ERR?').strip()
+        if not error_response.startswith('+0'):
+            raise ValueError(f"Instrument Error: {error_response}")
 
     async def set_power_auto_ranging_on(self, auto_ranging_on):
         """
         Set power measurement auto-ranging on.
         """
-        self.instr.write(f"SENS:POW:RANGE:AUTO {auto_ranging_on}")
+        self.write_instrument(f"SENS:POW:RANGE:AUTO {auto_ranging_on}")
 
     async def get_power_auto_ranging_on(self):
         """
@@ -25,6 +33,17 @@ class ArtiqThorlabsPm400():
         """
         return int(self.instr.query("SENS:POW:RANGE:AUTO?"))
 
+    async def set_wavelength(self, wavelength):
+        """
+        Set wavelength value.
+        """
+        self.write_instrument(f"SENS:CORR:WAV {wavelength}")
+
+    async def get_wavelength(self):
+        """
+        Get wavelength value.
+        """
+        return int(self.instr.query("SENS:CORR:WAV?"))
 
     async def get_power(self):
         """
@@ -43,6 +62,7 @@ class ArtiqThorlabsPm400():
 class ArtiqThorlabsPm400Sim():
     def __init__(self):
         self.auto_ranging_on = None
+        self.wavelength = None
 
     async def set_power_auto_ranging_on(self, auto_ranging_on):
         """
@@ -57,6 +77,20 @@ class ArtiqThorlabsPm400Sim():
         """
         return self.auto_ranging_on
         logging.warning(f"Simulated: Auto-ranging readout: {self.auto_ranging_on}")
+
+    async def set_wavelength(self, wavelength):
+        """
+        Simulate setting wavelength value.
+        """
+        self.wavelength = wavelength
+        logging.warning(f"Simulated: Setting wavelength value to {wavelength}")
+
+    async def get_wavelength(self):
+        """
+        Simulate getting wavelength value.
+        """
+        return self.wavelength
+        logging.warning(f"Simulated: Wavelength readout: {self.wavelength}")
 
     async def get_power(self):
         """
