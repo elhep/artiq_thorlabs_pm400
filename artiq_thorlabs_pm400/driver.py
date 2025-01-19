@@ -18,7 +18,7 @@ class ArtiqThorlabsPm400():
     def write_instrument(self, query):
         self.instr.write(query)
         error_response = self.instr.query('SYST:ERR?').strip()
-        if not error_response.startswith('+0'):
+        if not error_response.startswith('0'):
             raise ValueError(f"Instrument Error: {error_response}")
 
     async def set_power_auto_ranging_on(self, auto_ranging_on):
