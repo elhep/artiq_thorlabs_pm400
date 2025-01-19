@@ -15,7 +15,7 @@ class ArtiqThorlabsPm400():
         # Clear errors from memory
         self.instr.write('*CLS')
 
-    async def write_instrument(self, query):
+    def write_instrument(self, query):
         self.instr.write(query)
         error_response = self.instr.query('SYST:ERR?').strip()
         if not error_response.startswith('+0'):
